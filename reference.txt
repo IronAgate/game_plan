@@ -1,0 +1,2 @@
+
+before creating this repository, exploration for rendering games with HTML and javascript was done in the 'game_sublime' repository
