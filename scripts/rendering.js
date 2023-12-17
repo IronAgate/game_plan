@@ -8,8 +8,6 @@ class Panel {
 		number resY
 			vars for HTML canvas resolution
 			?need auto option?
-		(func) startup
-			called when user starts the game
 	
 	attributes
 		X,
@@ -35,21 +33,25 @@ class Panel {
 		
 	
 	methods
+		ignite
+			preps to start game by creating the start button
 		illuminate
 			reveals changes by painting the figure canvas to the shadow canvas
 		pose
 			generic, for drawing to the buffer canvas
 		
 	*/
-	constructor(divId, resX, resY, startup) {
+	constructor(divId, resX, resY, color="#000") {
 		
 		this.X = resX;
 		this.Y = resY;
 		
 		const wall = document.getElementById(divId);
+		this.wall = wall;
 		//style wall
 		wall.style.aspectRatio = resX/resY;
 		wall.style.position = "relative"; //for layering: https://www.shecodes.io/athena/50922-how-to-make-an-absolute-box-responsive-with-css#:~:text=To%20make%20an%20absolute%20position%20box%20responsive%2C%20you%20should%20use,parent%20container%20and%20adjust%20accordingly.
+		wall.style.backgroundColor = color;
 		
 		function makeCanvas(z) {
 			const sh = document.createElement("canvas");
@@ -84,6 +86,9 @@ class Panel {
 			this.fgFigureContext
 		] = makeCanvas(1);
 		
+			
+	}
+	ignite(startup) {
 		//start button
 		const btn = document.createElement("button");
 		btn.textContent = "start";
@@ -101,7 +106,10 @@ class Panel {
 				
 				startup();
 			}
-		wall.appendChild(btn);	
+		this.wall.appendChild(btn);
+	}
+	paintWall(color) {
+		this.wall.style.backgroundColor = color;
 	}
 	illuminate() {
 		this.bgShadowContext.drawImage(this.bgFigure, 0,0);
@@ -125,15 +133,5 @@ class Panel {
 	}
 }
 
-let game;
 
-function t_startup() {
-	game.poseBg().fillRect(0,0, 300,300);
-	game.poseFg().fillStyle = "#a05050";
-	game.poseFg().fillRect(125,125, 50,50);
-
-	game.illuminate()
-}
-
-game = new Panel("cave", 300,300, t_startup);
 
