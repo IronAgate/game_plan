@@ -52,6 +52,7 @@ class Panel {
 		wall.style.aspectRatio = resX/resY;
 		wall.style.position = "relative"; //for layering: https://www.shecodes.io/athena/50922-how-to-make-an-absolute-box-responsive-with-css#:~:text=To%20make%20an%20absolute%20position%20box%20responsive%2C%20you%20should%20use,parent%20container%20and%20adjust%20accordingly.
 		wall.style.backgroundColor = color;
+		wall.style.touchAction = "manipulation";
 		
 		function makeCanvas(z) {
 			const sh = document.createElement("canvas");
