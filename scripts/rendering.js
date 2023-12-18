@@ -47,8 +47,8 @@ class Panel {
 		this.Y = resY;
 		
 		//disable scroll-to-refresh / needs both for diff browsers
-		//document.documentElement.style.overscrollBehavior = "none";
-		//document.body.style.overscrollBehavior = "none";
+		document.documentElement.style.overscrollBehavior = "none";
+		document.body.style.overscrollBehavior = "none";
 		
 		const wall = document.getElementById(divId);
 		this.wall = wall;
@@ -58,7 +58,7 @@ class Panel {
 		wall.style.backgroundColor = color;
 		wall.style.touchAction = "manipulation"; //disable double-tap to zoom
 		
-		wall.style.overscrollBehavior = "none";
+		//doesnt work herewall.style.overscrollBehavior = "none";
 		
 		function makeCanvas(z) {
 			const sh = document.createElement("canvas");
