@@ -1,42 +1,32 @@
 
 const game = new Panel("cave", 1000,1000, color="#dddde4");
-
+const inp = new Input(game.fgShadow);
 
 
 function onaclick(e) {
 	
-	const cv = game.bgShadow;
-	
-	const rect = cv.getBoundingClientRect();
-	
-	console.log(cv.width, cv.offsetWidth);
-	console.log(rect.left, rect.top);
-	
-	let x = e.clientX - rect.left;
-	let y = e.clientY - rect.top;
-	
-	
-	console.log(x,y);
-	
-	x *= cv.width/cv.offsetWidth;
-	y *= cv.height/cv.offsetHeight;
-	
-	//canvCoords = (clientPos - elementPos) * (elementWidth / elementCssWidth)
+	const [x,y] = inp.translate_to_canv(e.clientX, e.clientY);
+	document.getElementById("testout").textContent = "down: " + x + ', ' + y;
 	
 	game.poseFg().fillRect(x - 5, y-5, 10, 10);
 	game.illuminateFg();
 }
+function onunclick(e) {
+	const [x,y] = inp.translate_to_canv(e.clientX, e.clientY);
+	
+	document.getElementById("testout").textContent = "up: " + x + ', ' + y;
+}
 
 
 function t_startup() {
-//	game.poseBg().fillRect(0,0, 300,300);
 	game.poseFg().fillStyle = "#a05060";
-	//game.poseFg().fillRect(125,125, 50,50);
+	game.poseFg().fillRect(125,125, 50,50);
 
-	//game.illuminate()
+	game.illuminate()
 	
-	game.wall.addEventListener("mousedown", onaclick);
 	
+	inp.recieveDownAt(onaclick);
+	inp.recieveUpAt(onunclick);
 	
 }
 

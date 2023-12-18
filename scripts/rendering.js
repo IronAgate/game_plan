@@ -133,5 +133,28 @@ class Panel {
 	}
 }
 
+class Input {
+	constructor(root) {
+		this.root = root
+		//if root is element with low z index, wont detect clicks from under other elements
+		
+	}
+	
+	recieveDownAt(f) {
+		this.root.addEventListener("mousedown", f);
+	}
+	recieveUpAt(f) {
+		this.root.addEventListener("mouseup", f);
+	}
+	
+	translate_to_canv(x,y) {
+		const rect = this.root.getBoundingClientRect();
+		//canvCoords = (clientPos - elementPos) * (elementWidth / elementCssWidth)
+		return [
+			(x - rect.left) * (this.root.width / this.root.offsetWidth)
+			, (y- rect.top) * (this.root.height / this.root.offsetHeight)
+		]
+	}
+}
 
 
