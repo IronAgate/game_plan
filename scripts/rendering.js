@@ -46,13 +46,17 @@ class Panel {
 		this.X = resX;
 		this.Y = resY;
 		
+		//disable scroll-to-refresh / needs both for diff browsers
+		document.documentElement.style.overscrollBehavior = "none";
+		document.body.style.overscrollBehavior = "none";
+		
 		const wall = document.getElementById(divId);
 		this.wall = wall;
 		//style wall
 		wall.style.aspectRatio = resX/resY;
 		wall.style.position = "relative"; //for layering: https://www.shecodes.io/athena/50922-how-to-make-an-absolute-box-responsive-with-css#:~:text=To%20make%20an%20absolute%20position%20box%20responsive%2C%20you%20should%20use,parent%20container%20and%20adjust%20accordingly.
 		wall.style.backgroundColor = color;
-		wall.style.touchAction = "manipulation";
+		wall.style.touchAction = "manipulation"; //disable double-tap to zoom
 		
 		function makeCanvas(z) {
 			const sh = document.createElement("canvas");
