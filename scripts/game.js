@@ -1,15 +1,29 @@
 
-const game = new Panel("cave", 300,300, color="#dddde4");
+const game = new Panel("cave", 1000,1000, color="#dddde4");
 
 
 
 function onaclick(e) {
 	
+	const cv = game.bgShadow;
 	
-	const x = e.offsetX;
-	const y = e.offsetY;
+	const rect = cv.getBoundingClientRect();
 	
-	game.poseFg().fillRect(x - 3, y-3, 3, 3);
+	console.log(cv.width, cv.offsetWidth);
+	console.log(rect.left, rect.top);
+	
+	let x = e.clientX - rect.left;
+	let y = e.clientY - rect.top;
+	
+	
+	console.log(x,y);
+	
+	x *= cv.width/cv.offsetWidth;
+	y *= cv.height/cv.offsetHeight;
+	
+	//canvCoords = (clientPos - elementPos) * (elementWidth / elementCssWidth)
+	
+	game.poseFg().fillRect(x - 5, y-5, 10, 10);
 	game.illuminateFg();
 }
 
