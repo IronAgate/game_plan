@@ -9,16 +9,12 @@
 }
 
 body {
-	padding: 0 1%;
+	padding: 1%;
 }
 
 #cave {
 	display: block;
 	margin: auto;
 	/*border: 1vw solid #dddde4;*/
-	max-height: 100vh;
-}
-
-#startButton {
-	
+	max-height: 90vh;
 }

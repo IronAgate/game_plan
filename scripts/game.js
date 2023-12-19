@@ -1,5 +1,5 @@
 
-const rend = new Cave("cave", 320,320,40);
+const rend = new Cave("cave", 8*40,8*40, 40);
 const inp = new Input(rend.fgShadow);
 
 
@@ -22,6 +22,7 @@ function t_startup() {
 	//rend.poseFg().fillStyle = "#a05060";
 	//rend.poseFg().fillRect(125,125, 4,4);
 	
+	rend.paintWall("#000");
 	
 	inp.recieveDownAt(onaclick);
 	inp.recieveUpAt(onunclick);
