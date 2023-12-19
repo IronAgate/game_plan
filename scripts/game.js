@@ -1,15 +1,14 @@
 
-const game = new Panel("cave", 1000,1000, color="#dddde4");
-const inp = new Input(game.fgShadow);
+const rend = new Cave("cave", 320,320,40);
+const inp = new Input(rend.fgShadow);
 
 
 function onaclick(e) {
-	
 	const [x,y] = inp.translate_to_canv(e.clientX, e.clientY);
 	document.getElementById("testout").textContent = "down: " + x + ', ' + y;
 	
-	game.poseFg().fillRect(x - 5, y-5, 10, 10);
-	game.illuminateFg();
+	rend.poseFg().fillRect(x-5, y-5, 10, 10);
+	rend.illuminateFg();
 }
 function onunclick(e) {
 	const [x,y] = inp.translate_to_canv(e.clientX, e.clientY);
@@ -19,15 +18,20 @@ function onunclick(e) {
 
 
 function t_startup() {
-	game.poseFg().fillStyle = "#a05060";
-	game.poseFg().fillRect(125,125, 50,50);
-
-	game.illuminate()
+	
+	//rend.poseFg().fillStyle = "#a05060";
+	//rend.poseFg().fillRect(125,125, 4,4);
 	
 	
 	inp.recieveDownAt(onaclick);
 	inp.recieveUpAt(onunclick);
 	
+	const sil = new Silhouette(rend, rend.fgFigureContext, "img_slime", 1,1);
+	
+	sil.pose(0,0);
+	rend.illuminateFg();
+	
+	
 }
 
-game.ignite(t_startup);
+rend.ignite(t_startup);

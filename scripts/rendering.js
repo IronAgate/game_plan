@@ -1,50 +1,11 @@
 
-class Panel {
-	/*
-	parameters
-		string divId
-			text for ID of div that game renders in
-		number resX,
-		number resY
-			vars for HTML canvas resolution
-			?need auto option?
+class Cave {
 	
-	attributes
-		X,
-		Y
-			canvas dimensions
-			from resX, resY
-		bgShadow,
-		bgShadowContext
-			for rendering background
-			the actual display canvas
-		bgFigure,
-		bgFigureContext
-			for rendering the background
-			frame buffer before display
-		fgShadow,
-		fgShadowContext,
-			for rendering foreground
-			actual display canvas
-		fgFigure,
-		figFigureContext
-			for rendering foreground
-			frame buffer before display
-		
-	
-	methods
-		ignite
-			preps to start game by creating the start button
-		illuminate
-			reveals changes by painting the figure canvas to the shadow canvas
-		pose
-			generic, for drawing to the buffer canvas
-		
-	*/
-	constructor(divId, resX, resY, color="#000") {
+	constructor(divId, resX, resY, scale=1, color="#000") {
 		
 		this.X = resX;
 		this.Y = resY;
+		this.scale = scale;
 		
 		//disable scroll-to-refresh / needs both for diff browsers
 		document.documentElement.style.overscrollBehavior = "none";
@@ -72,12 +33,18 @@ class Panel {
 			sh.style.position = "absolute"; //layering
 			wall.appendChild(sh);
 			
+			
 			const shcx = sh.getContext("2d");
 			shcx.imageSmoothingEnabled = false;
+			shcx.webkitImageSmoothingEnabled = false;
+			shcx.mozImageSmoothingEnabled = false;
 			
 			const fig = new OffscreenCanvas(resX, resY);
+			//const fig = document.createElement("canvas");
 			const figcx = fig.getContext("2d");
 			figcx.imageSmoothingEnabled = false;
+			figcx.webkitImageSmoothingEnabled = false;
+			figcx.mozImageSmoothingEnabled = false;
 			
 			return [sh, shcx, fig, figcx];
 		}
@@ -93,7 +60,6 @@ class Panel {
 			this.fgFigureContext
 		] = makeCanvas(1);
 		
-			
 	}
 	ignite(startup) {
 		//start button
@@ -114,6 +80,12 @@ class Panel {
 				startup();
 			}
 		this.wall.appendChild(btn);
+	}
+	translate_game_to_canvas(x,y) {
+		return [x * this.scale, y * this.scale];
+	}
+	translate_canvas_to_game(x,y) {
+		return [x / this.scale, y / this.scale];
 	}
 	paintWall(color) {
 		this.wall.style.backgroundColor = color;
@@ -144,9 +116,8 @@ class Input {
 	constructor(root) {
 		this.root = root
 		//if root is element with low z index, wont detect clicks from under other elements
-		
 	}
-	
+	//todo: touch events + click events
 	recieveDownAt(f) {
 		this.root.addEventListener("mousedown", f);
 	}
@@ -164,4 +135,27 @@ class Input {
 	}
 }
 
-
+class Silhouette {
+	/*
+	like a sprite
+	*/
+	constructor(renderer, ctx, imageId, sizeX, sizeY) {
+		//for now, expects image as html img
+		this.image = document.getElementById(imageId);
+		this.renderer = renderer;
+		this.ctx = ctx;
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
+	}
+	pose(x,y) {
+		//expects game coords
+		[x,y] = this.renderer.translate_game_to_canvas(x,y);
+		this.ctx.drawImage(this.image
+			, x,y
+			, this.sizeX * this.renderer.scale
+			, this.sizeY * this.renderer.scale
+		);
+		console.log(x,y, this.sizeX * this.renderer.scale);
+		
+	}
+}
